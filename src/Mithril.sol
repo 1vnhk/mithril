@@ -14,7 +14,6 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 /// This contract is just the ERC20 implementation of the stablecoin system.
 contract Mithril is ERC20Burnable, Ownable {
     error Mithril__MustBeMoreThanZero();
-    error Mithril__NotZeroAddress();
 
     constructor() ERC20("Mithril", "MTRL") Ownable(msg.sender) {}
 
@@ -27,9 +26,6 @@ contract Mithril is ERC20Burnable, Ownable {
     }
 
     function mint(address _to, uint256 _amount) external onlyOwner returns (bool) {
-        if (_to == address(0)) {
-            revert Mithril__NotZeroAddress();
-        }
         if (_amount == 0) {
             revert Mithril__MustBeMoreThanZero();
         }
