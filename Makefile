@@ -1,6 +1,6 @@
 -include .env
 
-.PHONY: all clean install build
+.PHONY: all clean install build test coverage
 
 all:; clean remove install update build
 
@@ -20,3 +20,11 @@ build:
 
 format:
 	@forge fmt
+
+test:
+	@forge test
+
+coverage:
+	@forge coverage --report lcov
+	genhtml lcov.info -o coverage --branch-coverage --ignore-errors inconsistent
+	open coverage/index.html
