@@ -7,8 +7,6 @@ import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
-using SafeERC20 for IERC20;
-
 /// @title MithrilEngine
 /// @author Ivan Hrekov (1vnhk)
 /// The system is designed to be as minimal as possible.
@@ -23,6 +21,8 @@ using SafeERC20 for IERC20;
 /// depositing and withdrawing collateral.
 /// @notice This contract is loosely based on DAI.
 contract MithrilEngine is ReentrancyGuard {
+    using SafeERC20 for IERC20;
+
     error MithrilEngine__MustBeMoreThanZero();
     error MithrilEngine__TokenAddressesAndPriceFeedAddressesShouldBeSameLength();
     error MithrilEngine__NotAllowedCollateral();
