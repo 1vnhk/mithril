@@ -14,11 +14,11 @@ contract MithrilTest is Test {
     address USER = makeAddr("user");
 
     address i_owner;
-    
+
     function setUp() public {
         DeployMithril deployer = new DeployMithril();
         mithril = deployer.deployMithril();
-        
+
         i_owner = mithril.owner();
     }
 
@@ -27,17 +27,13 @@ contract MithrilTest is Test {
     //////////////////////////////////////////////////////////////*/
     function testOnlyOwnerCanMint() public {
         vm.prank(USER);
-        vm.expectRevert(
-            abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, USER)
-        );
+        vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, USER));
         mithril.mint(USER, 1);
     }
 
     function testOnlyOwnerCanBurn() public {
         vm.prank(USER);
-        vm.expectRevert(
-            abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, USER)
-        );
+        vm.expectRevert(abi.encodeWithSelector(Ownable.OwnableUnauthorizedAccount.selector, USER));
         mithril.burn(1);
     }
 
@@ -53,7 +49,7 @@ contract MithrilTest is Test {
         vm.expectRevert(Mithril.Mithril__MustBeMoreThanZero.selector);
         mithril.mint(USER, 0);
     }
-    
+
     function testMintMintsCorrectAmount() public {
         vm.startPrank(i_owner);
         uint256 mintAmount = 10;
