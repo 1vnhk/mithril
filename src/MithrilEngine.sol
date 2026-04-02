@@ -29,6 +29,7 @@ contract MithrilEngine is ReentrancyGuard {
     error MithrilEngine__NotAllowedCollateral();
     error MithrilEngine__TransferFailed();
     error MithrilEngine__BreaksHealthFactor(uint256 healthFactor);
+    error MithrilEngine__MintFailed();
 
     uint256 private constant ADDITIONAL_FEED_PRECISION = 1e10;
     uint256 private constant PRECISION = 1e18;
@@ -99,12 +100,12 @@ contract MithrilEngine is ReentrancyGuard {
     /// @notice minted tokens must have more collateral value than the minimum threshold
     function mintMtrl(uint256 amountToMint) external moreThanZero(amountToMint) nonReentrant {
         s_mtrlMinted[msg.sender] += amountToMint;
-
         _revertIfHealthFactorIsBroken(msg.sender);
 
-        // emit event
-
-        // transfer tokens
+        bool minted = i_mithril.mint(msg.sender, amountToMint);
+        if (!minted) {
+            revert MithrilEngine__MintFailed();
+        }
     }
 
     function burnMtrl() external {}
